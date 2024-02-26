@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // Le variabili si dichiarano con var ed lo scopedura per l'interva vita della pagina
+        var messaggio = 'Ciao mondo!';
+        // Dichiaro una funzione (blocco di istruzioni) di nome cambiaTitolo.
+        // Dichiarare una funzione NON significa eseguirla!!!
+        function cambiaTitolo() {
+            // Prendo dal DOM il tag HTML con id = titolo
+            var titolo = document.getElementById('titolo');
+            // Modifico il testo contenuto fra <h1> e </h1>
+            titolo.innerText = 'Corso javascript - Lezione 1';
+        }
+    </script>
+</head>
+<body>
+    <h1 id="titolo">Corso javascript</h1>
+    <div>
+       <!--  Imposto il mio bottone in modo che esegua la funzione cambiaTitolo se l'utente esegue un click su di esso.
+             Attenzione: è obbligatorio l'uso delle parentesi dopo il nome della funzione!!! -->
+        <button onclick="cambiaTitolo()">Click me!</button>
+    </div>
+    <script>
+        alert(messaggio);
+    </script>
+</body>
+</html>
