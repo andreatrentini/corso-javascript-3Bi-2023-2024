@@ -22,6 +22,13 @@ class Position {
     }
 }
 
+class Spostamento {
+    constructor(max) {
+        this.x = Math.floor((Math.random() - 0.5) * max);
+        this.y = Math.floor((Math.random() - 0.5) * max);
+    }
+}
+
 class Pallina {
     constructor(urlImage, dimensions, position) {
         this.dimensions = dimensions;
@@ -32,19 +39,56 @@ class Pallina {
         this.image.style.left = position.leftPx;
         this.image.style.top = position.topPx;
         document.body.appendChild(this.image);
-        this.spostamento = 1;
+        this.spostamento = new Spostamento(20);
     }
     sposta() {
-        this.position.left += this.spostamento;
-        this.position.top += this.spostamento;
+        // Controllare se la pallina è arrivata al bordo della finestra sia oizzontale che verticale
+        // Orizzontale
+        if (this.position.left <= 0 || this.position.left >= window.innerWidth - this.dimensions.width) {
+            this.spostamento.x = - this.spostamento.x;
+        }
+        // Verticale
+        if (this.position.top <= 0 || this.position.top >= window.innerHeight - this.dimensions.height) {
+            this.spostamento.y = - this.spostamento.y;
+        }
+
+        this.position.left += this.spostamento.x;
+        this.position.top += this.spostamento.y;
 
         this.image.style.left = this.position.leftPx;
         this.image.style.top = this.position.topPx;
     }
 }
 
-var pallina = new Pallina('./images/ball.png', new Dimensions(20, 20), new Position(new Dimensions(20, 20)));
-setInterval(() => {
-    pallina.sposta();
-    console.log('ok')
-}, 20);
+class Palline {
+    constructor(urlImage, dimensions, nrPalline) {
+        this.palline = [];
+        for (let i = 0; i < nrPalline; i++) {
+            let pallina = new Pallina(urlImage, dimensions, new Position(dimensions));
+            this.palline.push(pallina);            
+        }
+    }
+    sposta() {
+        this.palline.forEach(pallina => {
+            pallina.sposta();
+        });
+    }
+
+}
+
+var intervallo;
+
+function avvia() {
+    // prende il valore dell'input
+    let nrPalline = document.getElementById('nrPalline').value;
+    var palline = new Palline('./images/ball.png', new Dimensions(20, 20), nrPalline);
+    intervallo = setInterval(() => {
+        palline.sposta();        
+    }, 20);
+}
+
+function ferma() {
+    // termino l'esecuzione della funzione di callback avviata da setInterval
+    clearInterval(intervallo);
+}
+
