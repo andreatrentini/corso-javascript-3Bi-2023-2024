@@ -11,6 +11,12 @@
     <header class="container-fluid p-5">
         <h1 class="display-2">Spotify</h1>
     </header>
+    <div class="container mt-5" style="visibility: hidden;" id="searcharea">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Artist name" aria-label="Artists name" aria-describedby="button-addon2" id="artistname">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="searchClick()">Search</button>
+          </div>
+    </div>
     
     <script src="./script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

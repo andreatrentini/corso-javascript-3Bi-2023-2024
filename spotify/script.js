@@ -20,6 +20,9 @@ function getToken() {
      .then(response => response.json())
      .then(dati => {
         token = dati;
+        // Ok, il token è arrivato!!!
+        let searcharea = document.getElementById('searcharea');
+        searcharea.style.visibility = 'visible';
         console.log(token);
         setInterval(() => {
             fetch('https://accounts.spotify.com/api/token', {
@@ -56,6 +59,44 @@ function searchArtist(artistName) {
     })
 }
 
-getToken();
-searchArtist('queen');
+function searchClick() {
+    let artistname = document.getElementById('artistname').value;
+    searchArtist(artistname);
+}
+
+function artistCard(artist) {
+    /*
+    <div class="card">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>    
+    </div>
+    */
+    let card = document.createElement('div');
+    card.className = 'card';
+    let img = document.createElement('img');
+    img.src = artist.images[1].url;
+    img.className = 'card-img-top';
+    img.alt = artist.name;
+    card.appendChild(img);
+    let cardbody = document.createElement('div');
+    cardbody.className = 'card-body';
+    let cardtitle = document.createElement('h5');
+    cardtitle.className = 'card-title';
+    cardtitle.innerText = artist.name;
+    cardbody.appendChild(cardtitle);
+    let cardtext = document.createElement('p');
+    cardtext.className = 'card-text';
+    cardtext.innerHTML = 'Popularity: ' + artist.popularity;
+    cardbody.appendChild(cardtext);
+    card.appendChild(cardbody);
+    return card;
+}
+
+setTimeout(() => {
+    getToken();
+}, 3000);
 
