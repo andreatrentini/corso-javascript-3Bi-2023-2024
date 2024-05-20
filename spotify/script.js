@@ -55,7 +55,9 @@ function searchArtist(artistName) {
     })
     .then(response => response.json())
     .then(dati => {
-        console.log(dati);
+        console.log(dati.artists.items);
+        let main = document.getElementById('main');
+        main.appendChild(artistGrid(dati.artists.items));
     })
 }
 
@@ -77,11 +79,13 @@ function artistCard(artist) {
     */
     let card = document.createElement('div');
     card.className = 'card';
-    let img = document.createElement('img');
-    img.src = artist.images[1].url;
-    img.className = 'card-img-top';
-    img.alt = artist.name;
-    card.appendChild(img);
+    if (artist.images.length > 0) {
+        let img = document.createElement('img');
+        img.src = artist.images[1].url;
+        img.className = 'card-img-top';
+        img.alt = artist.name;
+        card.appendChild(img);
+    }
     let cardbody = document.createElement('div');
     cardbody.className = 'card-body';
     let cardtitle = document.createElement('h5');
@@ -90,10 +94,32 @@ function artistCard(artist) {
     cardbody.appendChild(cardtitle);
     let cardtext = document.createElement('p');
     cardtext.className = 'card-text';
-    cardtext.innerHTML = 'Popularity: ' + artist.popularity;
+    cardtext.innerHTML = 'Popularity: ' + artist.popularity + '<br>' + getGenres(artist.genres);
     cardbody.appendChild(cardtext);
     card.appendChild(cardbody);
+    console.log(card)
     return card;
+}
+
+function artistGrid(artists){
+    let row = document.createElement('div');
+    row.className = 'row';
+    artists.forEach(artist => {
+        let col = document.createElement('div');
+        col.className = 'col-sm-4 mb-3';
+        col.appendChild(artistCard(artist));
+        row.appendChild(col);
+    });
+    console.log(row)
+    return row;
+}
+
+function getGenres(genres) {
+    let text = 'Genres: ';
+    genres.forEach(genre => {
+        text += genre + ', ';
+    });
+    return text;
 }
 
 setTimeout(() => {
